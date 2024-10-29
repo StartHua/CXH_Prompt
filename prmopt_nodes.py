@@ -54,6 +54,37 @@ eye_expressions = {
     "半闭眼": "half-closed eyes"
 }
 
+# 取景范围字典
+shot_types = {
+    # 全身取景
+    "全身标准取景": "standard full body shot",
+    "全身环境取景": "environmental full body shot",
+    "全身紧凑取景": "tight full body shot",
+    "全身宽松取景": "loose full body shot",
+    
+    # 半身取景
+    "半身标准取景": "standard half body shot",
+    "半身近景取景": "close half body shot",
+    "半身环境取景": "environmental half body shot",
+    "半身紧凑取景": "tight half body shot",
+    
+    # 特殊取景
+    "美式半身取景": "american shot (knee up)",
+    "意式半身取景": "italian shot (thigh up)",
+    "法式半身取景": "french shot (calf up)",
+    "时尚全身取景": "fashion full body shot",
+    "编辑风格取景": "editorial style shot",
+
+    "正面头像": "Front headshot",
+    "侧面头像": "Side profile headshot",
+    "左3/4头像": "Left 3/4 headshot",
+    "右3/4头像": "Right 3/4 headshot",
+    "45度头像": "45-degree headshot",
+    "头像俯视角": "High angle headshot",
+    "头像仰视角": "Low angle headshot",
+    "特写头像": "Close-up headshot"
+}
+
 
 class CXH_Prompt_Expressions:
 
@@ -64,10 +95,12 @@ class CXH_Prompt_Expressions:
     def INPUT_TYPES(s):
         chinese_angles = [exp for exp in expressions.keys()]
         eye_exp = [eye for eye in eye_expressions.keys()]
+        shot_t = [shot for shot in shot_types.keys()]
         return {
             "required": {
                "exp": (chinese_angles,{"default":"自然中性表情"}),
                "eye": (eye_exp,{"default":"直视前方"}),
+               "shot": (shot_t,{"default":"正面头像"}),
             }
         }
 
@@ -77,7 +110,7 @@ class CXH_Prompt_Expressions:
     OUTPUT_NODE = False
     CATEGORY = "CXH/LLM"
 
-    def gen(self, exp,eye):
+    def gen(self, exp,eye,shot):
 
-        return (expressions[exp]+","+ eye_expressions[eye],)
+        return (expressions[exp]+","+ eye_expressions[eye]+","+shot_types[shot],)
     
